@@ -1,0 +1,12 @@
+.env
+db/
+
+content/data/
+content/logs/
+content/images/
+
+*.log
+docker-compose.override.yml
+
+.DS_Store
+Thumbs.db
