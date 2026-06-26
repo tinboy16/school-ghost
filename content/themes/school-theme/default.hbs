@@ -80,13 +80,20 @@
     animation-play-state: paused;
 }
 
+.site-footer {
+    position: relative;
+    margin: max(12vmin, 64px) 0 0 0;
+    padding-top: 20px;
+    padding-bottom: 40px;
+    color: #fff;
+    background: color-mod(var(--color-darkgrey) l(-5%));
+}
+/* Social links */
 .site-footer-social-links {
     display: flex;
     gap: 20px;
     padding-top: 5px;
 }
-/* Fix footer bị dài */
-/* Fix khoảng trắng trên footer */
 </style>
     {{!-- Basic meta - advanced meta is output with {ghost_head} below --}}
     <title>{{meta_title}}</title>

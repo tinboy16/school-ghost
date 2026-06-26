@@ -12,3 +12,5 @@ docker-compose.override.yml
 .DS_Store
 Thumbs.db
 content/themes/*/node_modules/
+content/themes/source
+content/themes/casper
