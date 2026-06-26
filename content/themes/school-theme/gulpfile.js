@@ -107,7 +107,7 @@ const jsWatcher = () => watch('assets/js/**', js);
 const hbsWatcher = () => watch(['*.hbs', 'partials/**/*.hbs'], hbs);
 const localesWatcher = () => watch('./locales-local/**/*.json', locales);
 const watcher = parallel(cssWatcher, jsWatcher, hbsWatcher, localesWatcher);
-const build = series(css, js, locales);
+const build = series(css, js);
 
 exports.build = build;
 exports.zip = series(build, zipper);
