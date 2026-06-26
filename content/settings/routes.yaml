@@ -1,6 +1,9 @@
 routes:
   /thong-bao/:
     template: thong-bao
+  /lien-he/:
+    template: lien-he 
+
 collections:
   /:
     permalink: /{slug}/

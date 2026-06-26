@@ -5,28 +5,49 @@
 There are two error files in this theme, one for 404s and one for all other errors.
 This file is the former, and handles all 404 Page Not Found errors.
 
-The 404 error is the most common error that a visitor might see, for example when
-following a broken link
-
-Keep this template as lightweight as you can!
-
 --}}
 
-<section class="outer error-content">
-    <div class="inner">
+<section class="outer error-content" style="padding: 80px 20px; text-align: center;">
+    <div class="inner" style="max-width: 600px; margin: 0 auto;">
         <section class="error-message">
-            <h1 class="error-code">{{statusCode}}</h1>
-            <p class="error-description">{{message}}</p>
-            <a class="error-link" href="{{@site.url}}">{{t "Go to the front page →"}}</a>
+            <!-- Phóng to cụm icon siêu đáng yêu -->
+            <div class="error-icon-group" style="display: flex; justify-content: center; align-items: center; gap: 15px; margin-bottom: 20px; animation: bounce 2s infinite; font-size: 5rem;">
+                <span>🎒</span>
+                <span>👀</span>
+                <span>✨</span>
+            </div>
+            
+            <!-- Tăng kích thước số 404 cho rõ ràng -->
+            <h1 class="error-code" style="margin: 0 0 15px; font-size: 7.5rem; color: #ff6b6b; font-weight: 800; line-height: 1;">{{statusCode}}</h1>
+            
+            <!-- Chữ to, rõ ràng, dễ đọc cho phụ huynh và học sinh -->
+            <p class="error-description" style="font-size: 1.5rem; font-weight: 600; color: #333; margin-bottom: 35px; line-height: 1.5;">
+                Rất tiếc, trang bạn tìm kiếm không tồn tại<br>hoặc đã được di chuyển rồi!
+            </p>
+            
+            <!-- Nút bấm to hơn, bo tròn đẹp mắt -->
+            <a class="error-link" href="{{@site.url}}" style="display: inline-block; background: #4caf50; color: #fff; padding: 14px 32px; border-radius: 30px; text-decoration: none; font-weight: bold; font-size: 1.2rem; box-shadow: 0 4px 10px rgba(76, 175, 80, 0.3); transition: transform 0.2s;">
+                🏫 Quay về trang chủ thôi nào →
+            </a>
         </section>
     </div>
 </section>
 
-{{!-- Given that people landing on this page didn't find what they
-were looking for, let's give them some alternative stuff to read. --}}
-<aside class="read-more-wrap outer">
+{{!-- Hiệu ứng chuyển động mượt mà --}}
+<style>
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+@keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+}
+</style>
+
+<aside class="read-more-wrap outer" style="padding-top: 20px;">
     <div class="read-more inner">
-        {{#get "posts" include="authors" limit="3" as |more_posts|}}
+       {{#get "posts" include="authors" limit="3" as |more_posts|}}
             {{#if more_posts}}
                 {{#foreach more_posts}}
                     {{> "post-card"}}

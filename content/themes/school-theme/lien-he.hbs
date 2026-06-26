@@ -1,0 +1,518 @@
+{{!< default}}
+<style>
+/* ===== TRANG LIÊN HỆ ===== */
+.lh-page {
+    max-width: 900px;
+    margin: 48px auto;
+    padding: 0 24px;
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+.lh-page-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1a202c;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.lh-page-title::after {
+    content: '';
+    flex: 1;
+    height: 3px;
+    background: linear-gradient(90deg, #2a5298, transparent);
+    border-radius: 2px;
+    margin-left: 12px;
+}
+
+.lh-subtitle {
+    color: #718096;
+    font-size: 14px;
+    margin-bottom: 36px;
+}
+
+/* ===== LAYOUT ===== */
+.lh-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+}
+
+/* ===== THÔNG TIN LIÊN HỆ ===== */
+.lh-info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.lh-info-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    padding: 20px 22px;
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    border-left: 4px solid #2a5298;
+    transition: transform 0.18s, box-shadow 0.18s;
+}
+
+.lh-info-card:hover {
+    transform: translateX(4px);
+    box-shadow: 0 6px 24px rgba(42,82,152,0.13);
+}
+
+.lh-info-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.lh-info-body {}
+
+.lh-info-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: #2a5298;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 4px;
+}
+
+.lh-info-value {
+    font-size: 14.5px;
+    color: #2d3748;
+    line-height: 1.6;
+    font-weight: 500;
+}
+
+.lh-info-value a {
+    color: #2a5298;
+    text-decoration: none;
+}
+
+.lh-info-value a:hover {
+    text-decoration: underline;
+}
+
+/* ===== GIỜ TIẾP ĐÓN ===== */
+.lh-hours-card {
+    background: #ebf4ff;
+    border-radius: 14px;
+    padding: 20px 22px;
+    border-left: 4px solid #63b3ed;
+}
+
+.lh-hours-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #2a5298;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.lh-hours-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13.5px;
+    color: #4a5568;
+    padding: 5px 0;
+    border-bottom: 1px dashed #bee3f8;
+}
+
+.lh-hours-row:last-child {
+    border-bottom: none;
+}
+
+.lh-hours-row strong {
+    color: #2d3748;
+    font-weight: 600;
+}
+
+/* ===== FORM LIÊN HỆ ===== */
+.lh-form-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
+    padding: 28px 28px;
+}
+
+.lh-form-heading {
+    font-size: 17px;
+    font-weight: 700;
+    color: #1a202c;
+    margin-bottom: 6px;
+}
+
+.lh-form-desc {
+    font-size: 13px;
+    color: #718096;
+    margin-bottom: 22px;
+    line-height: 1.5;
+}
+
+.lh-form-group {
+    margin-bottom: 16px;
+}
+
+.lh-form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+    margin-bottom: 6px;
+}
+
+.lh-form-group label span.req {
+    color: #e53e3e;
+    margin-left: 3px;
+}
+
+.lh-form-group input,
+.lh-form-group select,
+.lh-form-group textarea {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #2d3748;
+    font-family: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    background: #f8fafc;
+    box-sizing: border-box;
+}
+
+.lh-form-group input:focus,
+.lh-form-group select:focus,
+.lh-form-group textarea:focus {
+    outline: none;
+    border-color: #2a5298;
+    box-shadow: 0 0 0 3px rgba(42,82,152,0.1);
+    background: #fff;
+}
+
+.lh-form-group textarea {
+    resize: vertical;
+    min-height: 110px;
+}
+
+.lh-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+.lh-form-btn {
+    width: 100%;
+    background: #2a5298;
+    color: #fff;
+    border: none;
+    border-radius: 9px;
+    padding: 13px 20px;
+    font-size: 15px;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 4px;
+}
+
+.lh-form-btn:hover {
+    background: #1e3a7a;
+    transform: translateY(-1px);
+}
+
+.lh-form-btn:active {
+    transform: translateY(0);
+}
+
+/* ===== THÀNH CÔNG / LỖI ===== */
+.lh-msg {
+    display: none;
+    border-radius: 10px;
+    padding: 14px 18px;
+    font-size: 14px;
+    font-weight: 600;
+    margin-top: 14px;
+    text-align: center;
+}
+
+.lh-msg.success {
+    background: #f0fff4;
+    color: #276749;
+    border: 1.5px solid #9ae6b4;
+}
+
+.lh-msg.error {
+    background: #fff5f5;
+    color: #c53030;
+    border: 1.5px solid #feb2b2;
+}
+
+/* ===== BẢN ĐỒ ===== */
+.lh-map-section {
+    margin-top: 28px;
+}
+
+.lh-map-label {
+    font-size: 14px;
+    font-weight: 700;
+    color: #4a5568;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.lh-map-frame {
+    width: 100%;
+    height: 240px;
+    border-radius: 14px;
+    border: none;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.08);
+    display: block;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 700px) {
+    .lh-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .lh-form-row {
+        grid-template-columns: 1fr;
+    }
+
+    .lh-form-card {
+        padding: 20px 18px;
+    }
+}
+</style>
+<div class="lh-page">
+    <h1 class="lh-page-title">📬 Liên hệ</h1>
+    <p class="lh-subtitle">Quý phụ huynh và học sinh có thể liên hệ với nhà trường qua các kênh dưới đây</p>
+
+    <div class="lh-layout">
+
+        <!-- ===== CỘT TRÁI: THÔNG TIN ===== -->
+        <div class="lh-info-block">
+            <div class="lh-info-card">
+                <div class="lh-info-icon">🏫</div>
+                <div class="lh-info-body">
+                    <div class="lh-info-label">Tên trường</div>
+                    <div class="lh-info-value">Trường Tiểu học Lộc Châu 1</div>
+                </div>
+            </div>
+
+            <div class="lh-info-card">
+                <div class="lh-info-icon">📍</div>
+                <div class="lh-info-body">
+                    <div class="lh-info-label">Địa chỉ</div>
+                    <div class="lh-info-value">
+                        01 Đường Đinh Công Tráng,<br>
+                        3 Bảo Lộc, Lâm Đồng, Việt Nam
+                    </div>
+                </div>
+            </div>
+
+            <div class="lh-info-card">
+                <div class="lh-info-icon">📞</div>
+                <div class="lh-info-body">
+                    <div class="lh-info-label">Điện thoại</div>
+                    <div class="lh-info-value">
+                        <a href="tel:0263 3862 680">(0263) 3862 680</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lh-info-card">
+                <div class="lh-info-icon">✉️</div>
+                <div class="lh-info-body">
+                    <div class="lh-info-label">Email</div>
+                    <div class="lh-info-value">
+                        <a href="mailto:lienhe@thlochau1.edu.vn">lienhe@thlochau1.edu.vn</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Giờ tiếp đón -->
+            <div class="lh-hours-card">
+                <div class="lh-hours-title">🕐 Giờ tiếp đón phụ huynh</div>
+                <div class="lh-hours-row">
+                    <span>Thứ Hai – Thứ Sáu</span>
+                    <strong>7:00 – 16:30</strong>
+                </div>
+                <div class="lh-hours-row">
+                    <span>Thứ Bảy</span>
+                    <strong>7:30 – 11:00</strong>
+                </div>
+                <div class="lh-hours-row">
+                    <span>Chủ Nhật & Lễ</span>
+                    <strong>Nghỉ</strong>
+                </div>
+            </div>
+
+            <!-- Bản đồ -->
+            <div class="lh-map-section">
+                <div class="lh-map-label">🗺️ Vị trí trường</div>
+                <iframe
+                    class="lh-map-frame"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3909.3257301495437!2d107.77270237535961!3d11.528475388669731!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3173f71232be74bb%3A0xcd77a156e006ab1c!2zVHLGsOG7nW5nIFRp4buDdSBo4buNYyBM4buZYyBDaMOidSAxLCBM4buZYyBDaMOidSwgQuG6o28gTOG7mWMsIEzDom0gxJDhu5NuZw!5e0!3m2!1svi!2s!4v1782471597909!5m2!1svi!2s"
+                    allowfullscreen=""
+                    loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Bản đồ vị trí trường">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- ===== CỘT PHẢI: FORM GỬI TIN ===== -->
+        <div class="lh-form-card">
+            <div class="lh-form-heading">📝 Gửi tin nhắn cho nhà trường</div>
+            <p class="lh-form-desc">Nhà trường sẽ phản hồi trong vòng 1–2 ngày làm việc.</p>
+
+            <form id="lh-contact-form" novalidate>
+                <div class="lh-form-row">
+                    <div class="lh-form-group">
+                        <label for="lh-ho-ten">Họ và tên <span class="req">*</span></label>
+                        <input type="text" id="lh-ho-ten" name="ho_ten" placeholder="Nguyễn Văn A" required>
+                    </div>
+                    <div class="lh-form-group">
+                        <label for="lh-vai-tro">Vai trò</label>
+                        <select id="lh-vai-tro" name="vai_tro">
+                            <option value="">-- Chọn vai trò --</option>
+                            <option value="phu-huynh">Phụ huynh học sinh</option>
+                            <option value="hoc-sinh">Học sinh</option>
+                            <option value="giao-vien">Giáo viên / Nhân viên</option>
+                            <option value="khac">Khác</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="lh-form-row">
+                    <div class="lh-form-group">
+                        <label for="lh-email">Email <span class="req">*</span></label>
+                        <input type="email" id="lh-email" name="email" placeholder="email@example.com" required>
+                    </div>
+                    <div class="lh-form-group">
+                        <label for="lh-sdt">Số điện thoại</label>
+                        <input type="tel" id="lh-sdt" name="so_dien_thoai" placeholder="09xx xxx xxx">
+                    </div>
+                </div>
+
+                <div class="lh-form-group">
+                    <label for="lh-chu-de">Chủ đề <span class="req">*</span></label>
+                    <select id="lh-chu-de" name="chu_de" required>
+                        <option value="">-- Chọn chủ đề --</option>
+                        <option value="tuyen-sinh">Tuyển sinh & Nhập học</option>
+                        <option value="hoc-phi">Học phí & Hỗ trợ</option>
+                        <option value="chuong-trinh">Chương trình học</option>
+                        <option value="hoat-dong">Hoạt động ngoại khóa</option>
+                        <option value="co-so-vat-chat">Cơ sở vật chất</option>
+                        <option value="phan-hoi">Phản hồi & Góp ý</option>
+                        <option value="khac">Khác</option>
+                    </select>
+                </div>
+
+                <div class="lh-form-group">
+                    <label for="lh-noi-dung">Nội dung <span class="req">*</span></label>
+                    <textarea id="lh-noi-dung" name="noi_dung" placeholder="Nhập nội dung cần liên hệ..." required></textarea>
+                </div>
+
+                <button type="submit" class="lh-form-btn" id="lh-submit-btn">
+                    <span>📨</span> Gửi tin nhắn
+                </button>
+
+                <!-- Thêm vùng hiển thị thông báo động -->
+                <div class="lh-msg" id="lh-success-msg" style="display: none; color: green; margin-top: 10px;">
+                    ✅ Cảm ơn! Nhà trường đã nhận được tin nhắn của bạn và sẽ phản hồi sớm nhất.
+                </div>
+                <div class="lh-msg" id="lh-error-msg" style="display: none; color: red; margin-top: 10px;">
+                    ❌ Vui lòng điền đầy đủ các trường bắt buộc (có dấu *).
+                </div>
+            </form>
+        </div>
+
+    </div>
+</div>
+
+<script>
+(function () {
+    // URL PocketBase
+    const API_URL = "https://adminct.tinnguyen.xyz/api/collections/contacts/records";
+
+    const form       = document.getElementById("lh-contact-form");
+    const btnSubmit  = document.getElementById("lh-submit-btn");
+    const msgSuccess = document.getElementById("lh-success-msg");
+    const msgError   = document.getElementById("lh-error-msg");
+
+    function hideMessages() {
+        msgSuccess.style.display = "none";
+        msgError.style.display = "none";
+    }
+
+    form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        hideMessages();
+
+        if (!form.checkValidity()) {
+            msgError.textContent = "❌ Vui lòng điền đầy đủ các trường bắt buộc.";
+            msgError.style.display = "block";
+            return;
+        }
+
+        btnSubmit.disabled = true;
+        btnSubmit.innerHTML = "⌛ Đang gửi...";
+
+        const data = {
+            ho_ten: form.ho_ten.value,
+            vai_tro: form.vai_tro.value,
+            email: form.email.value,
+            so_dien_thoai: form.so_dien_thoai.value,
+            chu_de: form.chu_de.value,
+            noi_dung: form.noi_dung.value
+        };
+
+        try {
+            const response = await fetch(API_URL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (!response.ok) {
+                const err = await response.text();
+                throw new Error(err);
+            }
+
+            msgSuccess.style.display = "block";
+            form.reset();
+
+        } catch (err) {
+            console.error(err);
+
+            msgError.textContent =
+                "❌ Không gửi được thông tin. Vui lòng thử lại sau.";
+
+            msgError.style.display = "block";
+        }
+
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = '<span>📨</span> Gửi tin nhắn';
+    });
+})();
+</script>
