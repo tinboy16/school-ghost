@@ -1,5 +1,6 @@
 routes:
-
+  /thong-bao/:
+    template: thong-bao
 collections:
   /:
     permalink: /{slug}/

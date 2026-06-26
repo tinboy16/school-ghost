@@ -86,6 +86,7 @@
 }
 
 /* ===== INFO CARDS ===== */
+/* ===== INFO CARDS ===== */
 .grid3-inner {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -100,25 +101,29 @@
     box-shadow: 0 10px 30px rgba(0,0,0,0.08);
     text-align: center;
     transition: transform 0.2s;
-    min-width: 0; /* fix vỡ grid */
+    min-width: 0;
+    overflow: hidden; /* ngăn nội dung tràn ra ngoài */
+    word-break: break-word; /* cho phép xuống dòng */
 }
 
 .card:hover {
     transform: translateY(-6px);
 }
 
-.card {
+.card h3 {
     font-size: 16px;
     margin: 0 0 10px;
     color: #1a202c;
-    white-space: nowrap; /* emoji + chữ không bị gãy */
+    white-space: normal; /* ← BỎ nowrap, cho phép xuống dòng */
+    word-break: break-word;
 }
 
-.card {
+.card p {
     font-size: 14px;
     color: #4a5568;
     line-height: 1.6;
     margin: 0;
+    word-break: break-word;
 }
 
 /* ===== NEWS ===== */
@@ -243,14 +248,18 @@ h1, h2, h3 {
 <!-- INFO CARDS -->
 <section class="outer">
     <div class="inner grid3-inner">
-        <div class="card">
-            <h3>📢 Thông báo</h3>
-            <p>Cập nhật lịch học, nghỉ lễ, thông báo mới nhất</p>
-        </div>
-        <div class="card">
-            <h3>🎓 Hoạt động</h3>
-            <p>Hình ảnh & hoạt động ngoại khóa học sinh</p>
-        </div>
+<a href="/thong-bao/" class="card-link">
+    <div class="card">
+        <h3>📢 Thông báo</h3>
+        <p>Cập nhật lịch học, nghỉ lễ, thông báo mới nhất</p>
+    </div>
+</a>
+<a href="/hoat-dong/" class="card-link">
+    <div class="card">
+        <h3>🎓 Hoạt động</h3>
+        <p>Hình ảnh & hoạt động ngoại khóa học sinh</p>
+    </div>
+</a>
         <div class="card">
             <h3>📚 Tuyển sinh</h3>
             <p>Thông tin tuyển sinh năm học mới</p>

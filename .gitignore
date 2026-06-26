@@ -4,9 +4,11 @@ db/
 content/data/
 content/logs/
 content/images/
-
+content/themes/casper/
+content/themes/source/
 *.log
 docker-compose.override.yml
 
 .DS_Store
 Thumbs.db
+content/themes/*/node_modules/

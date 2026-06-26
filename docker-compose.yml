@@ -1,6 +1,6 @@
 services:
   db:
-    image: mariadb:11
+    image: mysql:8.0
     container_name: ghost-db
     restart: always
     env_file:
@@ -12,6 +12,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - ./db:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
 
   ghost:
     image: ghost:latest
@@ -28,6 +29,13 @@ services:
       database__connection__password: ${MYSQL_PASSWORD}
       database__connection__database: ${MYSQL_DATABASE}
       url: ${GHOST_URL}
+      mail__transport: SMTP
+      mail__from: ${GHOST_MAIL__FROM}
+      mail__options__host: smtp.resend.com
+      mail__options__port: 587
+      mail__options__secure: false
+      mail__options__auth__user: resend
+      mail__options__auth__pass: ${GHOST_MAIL__OPTIONS__AUTH__PASS}
     volumes:
       - ./content:/var/lib/ghost/content
     depends_on:

@@ -2140,6 +2140,8 @@ html.dark-mode .gh-button-share:hover {
 .site-footer-social-links {
     display: flex;
     gap: 20px;
+    padding-top: 5px;
+
 }
 
 .site-footer-social-links a {
