@@ -1,0 +1,95 @@
+{{!< default}}
+<link rel="stylesheet" href="{{asset "css/van-ban.css"}}">
+
+<div class="vb-container">
+
+    <div class="vb-header">
+        <div class="vb-header-icon">📄</div>
+        <h1>Văn bản – Công văn</h1>
+        <p>Tra cứu văn bản, công văn, quyết định và thông báo của Trường Tiểu học Lộc Châu 1.</p>
+    </div>
+
+    <div class="vb-toolbar">
+        <div class="vb-search-wrap">
+            <span class="vb-search-icon">🔍</span>
+            <input type="text" id="vbSearch" placeholder="Nhập số văn bản hoặc tiêu đề...">
+        </div>
+        <div class="vb-selects">
+            <select id="vbLoai"><option value="">Tất cả loại văn bản</option></select>
+            <select id="vbYear"><option value="">Tất cả năm</option></select>
+        </div>
+    </div>
+
+    <div class="vb-stats" id="vbStats">Đang tải dữ liệu...</div>
+
+    <div class="vb-table-wrapper">
+        <table class="vb-table">
+            <thead>
+                <tr>
+                    <th class="col-num">Số / Ký hiệu</th>
+                    <th class="col-title">Trích yếu nội dung</th>
+                    <th class="col-type">Loại</th>
+                    <th class="col-date">Ngày ban hành</th>
+                    <th class="col-pdf">Tài liệu</th>
+                </tr>
+            </thead>
+            <tbody id="vbBody">
+                <tr class="vb-skeleton"><td colspan="5"><div class="sk-line"></div></td></tr>
+                <tr class="vb-skeleton"><td colspan="5"><div class="sk-line"></div></td></tr>
+                <tr class="vb-skeleton"><td colspan="5"><div class="sk-line"></div></td></tr>
+                <tr class="vb-skeleton"><td colspan="5"><div class="sk-line"></div></td></tr>
+                <tr class="vb-skeleton"><td colspan="5"><div class="sk-line"></div></td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div id="vbEmpty" class="vb-empty" style="display:none">
+        <div class="vb-empty-icon">📂</div>
+        <h3>Không tìm thấy văn bản</h3>
+        <p>Hãy thử thay đổi từ khóa hoặc bộ lọc.</p>
+        <button onclick="window.vbReset()">Xoá bộ lọc</button>
+    </div>
+
+    <div class="vb-pagination" id="vbPagination" style="display:none">
+        <button id="vbPrev" onclick="window.vbChangePage(-1)">‹ Trước</button>
+        <span id="vbPageInfo"></span>
+        <button id="vbNext" onclick="window.vbChangePage(1)">Sau ›</button>
+    </div>
+
+</div>
+
+<div id="pdfModal" class="pdf-modal" role="dialog" aria-modal="true" aria-label="Xem văn bản PDF">
+    <div class="pdf-content">
+        <div class="pdf-header">
+            <div class="pdf-header-title">
+                <span>📄</span>
+                <span id="pdfModalTitle">Xem văn bản</span>
+            </div>
+            <button id="closePdf" aria-label="Đóng">✕</button>
+        </div>
+        <div class="pdf-frame">
+            <div class="pdf-loading" id="pdfLoading">
+                <div class="pdf-spinner"></div>
+                <span>Đang tải tài liệu...</span>
+            </div>
+            <iframe id="pdfViewer" src="" title="PDF Viewer" loading="lazy"></iframe>
+        </div>
+        <div class="pdf-footer">
+            <a id="downloadPdf" href="#" target="_blank" rel="noopener noreferrer">⬇ Tải xuống PDF</a>
+            <span id="pdfFileInfo" class="pdf-file-info"></span>
+        </div>
+    </div>
+</div>
+
+{{!-- DATA: mỗi post 1 dòng, tags không có whitespace thừa --}}
+<script id="vb-raw-data" type="application/json">
+[
+{{#get "posts" filter="tag:van-ban" limit="all" include="tags"}}
+{{#foreach posts}}
+{"id":{{json id}},"title":{{json title}},"excerpt":{{json excerpt}},"url":"{{url absolute="true"}}","published_at":"{{date format="YYYY-MM-DD"}}","tags":[{{#foreach tags}}{{json name}}{{#unless @last}},{{/unless}}{{/foreach}}]}{{#unless @last}},{{/unless}}
+{{/foreach}}
+{{/get}}
+]
+</script>
+
+<script src="{{asset "js/van-ban.js"}}"></script>

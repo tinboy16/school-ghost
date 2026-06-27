@@ -3,7 +3,8 @@ routes:
     template: thong-bao
   /lien-he/:
     template: lien-he 
-
+  /van-ban/:
+    template: van-ban
 collections:
   /:
     permalink: /{slug}/
