@@ -5,6 +5,10 @@ routes:
     template: lien-he 
   /van-ban/:
     template: van-ban
+  /hoat-dong/:
+    template: hoat-dong
+  /check-uuid/:
+    template: check-uuid
 collections:
   /:
     permalink: /{slug}/

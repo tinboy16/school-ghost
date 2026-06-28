@@ -114,6 +114,35 @@
     it should always be the last tag before the closing head tag --}}
     {{ghost_head}}
 
+    {{!-- Member data for reactions - lấy UUID từ Ghost Members --}}
+    <script id="member-data" type="application/json">
+{{#if @member}}
+{"id":"{{@member.uuid}}"}
+{{else}}
+{"id":null}
+{{/if}}
+</script>
+<script>
+    (function() {
+        const el = document.getElementById('member-data');
+        if (el) {
+            try {
+                const data = JSON.parse(el.textContent);
+                console.log('[Member] Data from Ghost:', data);
+                if (data.id) {
+                    console.log('[Member] ✅ Member UUID:', data.id);
+                } else {
+                    console.warn('[Member] ❌ Không có member.uuid (chưa đăng nhập hoặc không có membership)');
+                }
+            } catch (e) {
+                console.error('[Member] Lỗi parse JSON:', e);
+            }
+        } else {
+            console.warn('[Member] Không tìm thấy #member-data');
+        }
+    })();
+</script>
+
 </head>
     <!-- TICKER / CHỮ CHẠY -->
     <div class="ticker-wrap">
@@ -134,7 +163,6 @@
             </div>
         </div>
     </div>
-
 <body class="{{body_class}} is-head-{{#match @custom.navigation_layout "Logo on cover"}}left-logo{{else match @custom.navigation_layout "Logo in the middle"}}middle-logo{{else}}stacked{{/match}}{{#match @custom.title_font "=" "Elegant serif"}} has-serif-title{{/match}}{{#match @custom.body_font "=" "Modern sans-serif"}} has-sans-body{{/match}}{{#if @custom.show_publication_cover}} has-cover{{/if}}">
 <div class="viewport">
 

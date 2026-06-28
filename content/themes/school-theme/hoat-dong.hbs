@@ -1,0 +1,177 @@
+{{!< default}}
+<link rel="stylesheet" href="{{asset "css/hoat-dong.css"}}">
+
+<style>
+    .hd-feed { min-width: 0 !important; }
+    .hd-card { min-width: 0 !important; width: 100% !important; overflow: hidden !important; }
+    .hd-gallery-strip {
+        display: flex !important;
+        flex-wrap: nowrap !important; /* Cấm rớt dòng */
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+        overflow-x: auto !important; /* Bật thanh cuộn */
+        scrollbar-width: thin !important; /* Hiện thanh cuộn trên Firefox */
+    }
+    .hd-gallery-strip::-webkit-scrollbar { height: 6px !important; display: block !important; }
+    .hd-gallery-strip::-webkit-scrollbar-track { background: #f0f2f8 !important; }
+    .hd-gallery-strip::-webkit-scrollbar-thumb { background: #1a5ea8 !important; border-radius: 10px !important; }
+</style>
+<div class="hd-wrap"><link rel="stylesheet" href="{{asset "css/hoat-dong.css"}}">
+
+{{!-- Trang Hoạt động nhà trường --}}
+{{!-- Mỗi post: tag "hoat-dong" + feature image + gallery card trong nội dung --}}
+
+<div class="hd-wrap">
+
+    {{!-- Hero header --}}
+    <div class="hd-hero">
+        <div class="hd-hero-inner">
+            <h1>Hoạt động của nhà trường</h1>
+            <p>Hình ảnh các sự kiện, hoạt động dạy và học tại Trường Tiểu học Lộc Châu 1</p>
+        </div>
+    </div>
+
+    {{!-- Filter tags --}}
+    <div class="hd-filter-bar">
+        <div class="hd-filter-inner">
+            <button class="hd-filter-btn active" data-tag="">Tất cả</button>
+            {{#get "tags" filter="slug:~hoat-dong" limit="20"}}
+            {{#foreach tags}}
+            {{#unless (match slug "hoat-dong")}}
+            <button class="hd-filter-btn" data-tag="{{slug}}">{{name}}</button>
+            {{/unless}}
+            {{/foreach}}
+            {{/get}}
+        </div>
+    </div>
+
+    {{!-- Main layout: Pinterest grid trái + Feed phải --}}
+    <div class="hd-main">
+
+        {{!-- Pinterest Grid (desktop: cột trái) --}}
+        <aside class="hd-grid-panel">
+            <div class="hd-grid-label">📷 Thư viện ảnh</div>
+            <div class="hd-pin-grid" id="hdPinGrid">
+                {{#get "posts" filter="tag:hoat-dong" limit="20" include="tags,authors"}}
+                {{#foreach posts}}
+                {{#if feature_image}}
+                <div class="hd-pin" data-id="{{id}}" data-tags="{{#foreach tags}}{{slug}} {{/foreach}}">
+                    <img src="{{img_url feature_image size="m"}}" alt="{{title}}" loading="lazy">
+                    <div class="hd-pin-overlay">
+                        <span>{{title}}</span>
+                    </div>
+                </div>
+                {{/if}}
+                {{/foreach}}
+                {{/get}}
+            </div>
+        </aside>
+
+        {{!-- Feed Facebook-style (cột phải / mobile: dưới) --}}
+        <main class="hd-feed">
+            {{#get "posts" filter="tag:hoat-dong" limit="all" include="tags,authors"}}
+            {{#foreach posts}}
+            <article class="hd-card" id="post-{{id}}" data-postid="{{id}}" data-tags="{{#foreach tags}}{{slug}} {{/foreach}}">
+
+                {{!-- Card header - hiển thị avatar và tên tác giả --}}
+                <div class="hd-card-header">
+                    {{!-- Avatar + tên tác giả --}}
+                    <div style="display:flex; align-items:center; gap:12px; flex:1;">
+                        {{#primary_author}}
+                            {{#if profile_image}}
+                                <img class="hd-card-avatar" src="{{img_url profile_image size="xs"}}" alt="{{name}}" loading="lazy" style="width:40px;height:40px;border-radius:50%;object-fit:cover;flex-shrink:0;">
+                            {{else}}
+                                <div class="hd-card-avatar" style="width:40px;height:40px;border-radius:50%;background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">👤</div>
+                            {{/if}}
+                            <div class="hd-card-meta">
+                                <strong>{{name}}</strong>
+                                <span>{{date format="DD/MM/YYYY"}}</span>
+                            </div>
+                        {{else}}
+                            {{!-- Fallback nếu không có tác giả --}}
+                            <div class="hd-card-avatar" style="width:40px;height:40px;border-radius:50%;background:#e0e0e0;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;">🏫</div>
+                            <div class="hd-card-meta">
+                                <strong>Trường TH Lộc Châu 1</strong>
+                                <span>{{date format="DD/MM/YYYY"}}</span>
+                            </div>
+                        {{/primary_author}}
+                    </div>
+
+                    {{!-- Tags --}}
+                    <div class="hd-card-tags">
+                        {{#foreach tags}}
+                        {{#unless (match slug "hoat-dong")}}
+                        <span class="hd-tag">{{name}}</span>
+                        {{/unless}}
+                        {{/foreach}}
+                    </div>
+                </div>
+
+                {{!-- Tiêu đề --}}
+                <h2 class="hd-card-title">
+                    <a href="{{url}}">{{title}}</a>
+                </h2>
+
+                {{!-- Feature image --}}
+                {{#if feature_image}}
+                <div class="hd-card-cover">
+                    <img src="{{img_url feature_image size="l"}}" alt="{{title}}" loading="lazy" class="hd-cover-img">
+                </div>
+                {{/if}}
+
+                {{!-- Excerpt --}}
+                {{#if excerpt}}
+                <p class="hd-card-excerpt">{{excerpt}}</p>
+                {{/if}}
+
+                {{!-- Gallery preview (lấy từ JS sau) --}}
+                <div class="hd-gallery-strip" id="gallery-{{id}}"></div>
+
+                {{!-- React bar --}}
+                <div class="hd-react-bar" data-postid="{{id}}">
+                    <div class="hd-react-group">
+                        <button class="hd-react-btn" data-emoji="❤️" data-postid="{{id}}" title="Yêu thích">
+                            <span class="hd-emoji">❤️</span>
+                            <span class="hd-count" id="count-{{id}}-heart">–</span>
+                        </button>
+                        <button class="hd-react-btn" data-emoji="👍" data-postid="{{id}}" title="Thích">
+                            <span class="hd-emoji">👍</span>
+                            <span class="hd-count" id="count-{{id}}-thumbs">–</span>
+                        </button>
+                        <button class="hd-react-btn" data-emoji="🎉" data-postid="{{id}}" title="Tuyệt vời">
+                            <span class="hd-emoji">🎉</span>
+                            <span class="hd-count" id="count-{{id}}-party">–</span>
+                        </button>
+                        <button class="hd-react-btn" data-emoji="😮" data-postid="{{id}}" title="Wow">
+                            <span class="hd-emoji">😮</span>
+                            <span class="hd-count" id="count-{{id}}-wow">–</span>
+                        </button>
+                    </div>
+                    <a href="{{url}}" class="hd-view-more">Xem thêm →</a>
+                </div>
+
+            </article>
+            {{/foreach}}
+            {{/get}}
+        </main>
+
+    </div>
+</div>
+
+{{!-- Lightbox --}}
+<div id="hdLightbox" class="hd-lightbox">
+    <button class="hd-lb-close" id="hdLbClose">✕</button>
+    <button class="hd-lb-prev" id="hdLbPrev">‹</button>
+    <button class="hd-lb-next" id="hdLbNext">›</button>
+    <div class="hd-lb-img-wrap">
+        <img id="hdLbImg" src="" alt="">
+    </div>
+    <div class="hd-lb-caption" id="hdLbCaption"></div>
+</div>
+
+{{!-- Config PocketBase — chỉ sửa dòng này --}}
+<script>
+window.PB_URL = 'https://super-tooth-a937.thuongtin16026937.workers.dev';
+</script>
+<script src="{{asset "js/hoat-dong.js"}}"></script>

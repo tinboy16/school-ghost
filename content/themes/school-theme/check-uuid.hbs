@@ -1,0 +1,347 @@
+{{! 
+  Trang kiểm tra UUID thành viên
+  Đường dẫn: /check-uuid
+  Chỉ dành cho thành viên đã đăng nhập
+}}
+
+{{! Layout chính }}
+{{!< default}}
+
+{{#contentFor "title"}}Kiểm tra UUID thành viên{{/contentFor}}
+
+<main class="check-uuid-page">
+  <div class="container">
+    <h1>🔍 Kiểm tra UUID thành viên</h1>
+    
+    {{#if @member}}
+      {{!-- Thành viên đã đăng nhập --}}
+      <div class="member-card">
+        <div class="member-info">
+          <h2>Thông tin thành viên</h2>
+          
+          <div class="info-item">
+            <label>👤 Họ tên:</label>
+            <span class="value">{{@member.name}}</span>
+          </div>
+          
+          <div class="info-item">
+            <label>📧 Email:</label>
+            <span class="value">{{@member.email}}</span>
+          </div>
+          
+          <div class="info-item highlight">
+            <label>🔑 UUID:</label>
+            <span class="value uuid-display" id="member-uuid">{{@member.uuid}}</span>
+            <button class="copy-btn" onclick="copyUUID()">📋 Copy</button>
+          </div>
+          
+          <div class="info-item">
+            <label>💳 Trạng thái:</label>
+            <span class="value">
+              {{#if @member.paid}}
+                <span class="badge paid">Thành viên trả phí ✅</span>
+              {{else}}
+                <span class="badge free">Thành viên miễn phí</span>
+              {{/if}}
+            </span>
+          </div>
+        </div>
+        
+        {{!-- Hiển thị thông tin đăng ký nếu có --}}
+        {{#if @member.subscriptions}}
+          <div class="subscriptions">
+            <h3>📋 Đăng ký của bạn</h3>
+            {{#foreach @member.subscriptions}}
+              <div class="subscription-item">
+                <p>
+                  <strong>Gói:</strong> {{plan.nickname}} 
+                  (<span class="status-{{status}}">{{status}}</span>)
+                </p>
+                <p><strong>Giá:</strong> {{price plan}}/{{plan.interval}}</p>
+                <p><strong>Hạn đến:</strong> {{date current_period_end format="DD/MM/YYYY"}}</p>
+                {{#if default_payment_card_last4}}
+                  <p><strong>Thẻ:</strong> **** {{default_payment_card_last4}}</p>
+                {{/if}}
+              </div>
+            {{/foreach}}
+          </div>
+        {{/if}}
+        
+        {{!-- Các công cụ hữu ích --}}
+        <div class="tools">
+          <h3>🛠️ Công cụ</h3>
+          <div class="tool-buttons">
+            <button onclick="testUUID('{{@member.uuid}}')">Kiểm tra UUID</button>
+            <button onclick="showFullMember()">Xem toàn bộ @member</button>
+          </div>
+          <div id="debug-output" style="display:none; margin-top: 15px; background: #f5f5f5; padding: 15px; border-radius: 5px; overflow: auto; max-height: 300px;">
+            <pre id="debug-content"></pre>
+          </div>
+        </div>
+      </div>
+      
+    {{else}}
+      {{!-- Chưa đăng nhập --}}
+      <div class="login-required">
+        <h2>🔒 Yêu cầu đăng nhập</h2>
+        <p>Vui lòng đăng nhập để xem UUID của bạn.</p>
+        <a href="#/portal/signin" class="btn btn-primary">Đăng nhập ngay</a>
+      </div>
+    {{/if}}
+  </div>
+</main>
+
+{{#contentFor "styles"}}
+<style>
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  h1 {
+    color: #15212A;
+    border-bottom: 3px solid #3EB0EF;
+    padding-bottom: 10px;
+  }
+  
+  .member-card {
+    background: white;
+    border-radius: 8px;
+    padding: 30px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+  }
+  
+  .info-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  .info-item:last-child {
+    border-bottom: none;
+  }
+  
+  .info-item label {
+    min-width: 120px;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .info-item .value {
+    flex: 1;
+    color: #555;
+  }
+  
+  .info-item.highlight {
+    background: #f0f9ff;
+    border-radius: 4px;
+    padding: 12px 15px;
+    margin: 5px 0;
+  }
+  
+  .uuid-display {
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    background: #f5f5f5;
+    padding: 4px 8px;
+    border-radius: 3px;
+    color: #15212A;
+    word-break: break-all;
+  }
+  
+  .copy-btn {
+    background: #3EB0EF;
+    color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.3s;
+  }
+  
+  .copy-btn:hover {
+    background: #2b8fc4;
+  }
+  
+  .badge {
+    display: inline-block;
+    padding: 3px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+  
+  .badge.paid {
+    background: #d4edda;
+    color: #155724;
+  }
+  
+  .badge.free {
+    background: #fff3cd;
+    color: #856404;
+  }
+  
+  .subscriptions {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e5e5e5;
+  }
+  
+  .subscription-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  
+  .subscription-item p {
+    margin: 5px 0;
+  }
+  
+  .status-active {
+    color: #28a745;
+    font-weight: 600;
+  }
+  
+  .status-canceled {
+    color: #dc3545;
+    font-weight: 600;
+  }
+  
+  .status-trialing {
+    color: #17a2b8;
+    font-weight: 600;
+  }
+  
+  .tools {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #e5e5e5;
+  }
+  
+  .tool-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .tool-buttons button {
+    background: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .tool-buttons button:hover {
+    background: #5a6268;
+  }
+  
+  .login-required {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .login-required .btn {
+    display: inline-block;
+    background: #3EB0EF;
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 15px;
+    transition: background 0.3s;
+  }
+  
+  .login-required .btn:hover {
+    background: #2b8fc4;
+  }
+  
+  pre {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+</style>
+{{/contentFor}}
+
+{{#contentFor "scripts"}}
+<script>
+  // Copy UUID
+  function copyUUID() {
+    const uuidElement = document.getElementById('member-uuid');
+    const uuid = uuidElement.textContent.trim();
+    
+    navigator.clipboard.writeText(uuid).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => {
+        btn.textContent = '📋 Copy';
+      }, 2000);
+    }).catch(err => {
+      // Fallback method
+      const textArea = document.createElement('textarea');
+      textArea.value = uuid;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      
+      const btn = document.querySelector('.copy-btn');
+      btn.textContent = '✅ Copied!';
+      setTimeout(() => {
+        btn.textContent = '📋 Copy';
+      }, 2000);
+    });
+  }
+  
+  // Test UUID
+  function testUUID(uuid) {
+    const output = document.getElementById('debug-output');
+    const content = document.getElementById('debug-content');
+    
+    const info = {
+      'UUID': uuid,
+      'Length': uuid.length,
+      'Format': 'UUID v4',
+      'Is Valid': /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(uuid) ? '✅ Yes' : '❌ No'
+    };
+    
+    content.textContent = JSON.stringify(info, null, 2);
+    output.style.display = 'block';
+  }
+  
+  // Show full @member object
+  function showFullMember() {
+    const output = document.getElementById('debug-output');
+    const content = document.getElementById('debug-content');
+    
+    // Chỉ hoạt động nếu có data-member
+    const memberData = {
+      name: '{{@member.name}}',
+      email: '{{@member.email}}',
+      uuid: '{{@member.uuid}}',
+      paid: {{#if @member.paid}}true{{else}}false{{/if}},
+      subscriptions: [
+        {{#foreach @member.subscriptions}}
+        {
+          plan: '{{plan.nickname}}',
+          status: '{{status}}',
+          amount: '{{price plan}}',
+          interval: '{{plan.interval}}'
+        }{{#unless @last}},{{/unless}}
+        {{/foreach}}
+      ]
+    };
+    
+    content.textContent = JSON.stringify(memberData, null, 2);
+    output.style.display = 'block';
+  }
+</script>
+{{/contentFor}}
